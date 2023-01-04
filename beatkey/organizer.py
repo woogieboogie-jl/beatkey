@@ -20,9 +20,9 @@ def rename(songs_dict):
         else:
             key_dj = songs_dict[song][1]
             song_labeled = f"[{bpm}][{key_dj}] {song}"
-        os.rename(song_dir,song_labeled)
+        os.rename(song_dir+'/'+song,song_dir+'/'+song_labeled)
 
-# bpm 소수점 반올림 / 에러코드는 에러로 비피엠란에 표기 
+# bpm 소수점 반올림 / 에러코드는 에러로 비피엠란에 표기
 def bpmRounder(bpm):
     try:
         bpm_view = int(round(bpm))

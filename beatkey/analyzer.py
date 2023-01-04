@@ -1,12 +1,12 @@
 import librosa
 import numpy as np
 
-# BASIC ANALYSIS / OUTPUT : 
-def analyze(song_dir):
+# BASIC ANALYSIS / OUTPUT :
+def analyze(song, song_dir):
     # Load the audio and save waveform as `y`, with the sampling rate of 'sr'
     try:
         # Load audio file
-        y, sr = librosa.load(song_dir)
+        y, sr = librosa.load(song_dir + '/' + song)
         return y, sr
     except EOFError:
         y = "ERR"
@@ -38,8 +38,8 @@ def analyzePitch(y,sr):
 
 def pitchConvert(key_org):
     keys_camelot ={
-    "B Major" : "1B", 
-    "F# Major" : "2B", 
+    "B Major" : "1B",
+    "F# Major" : "2B",
     "C# Major" : "3B",
     "G# Major" : "4B",
     "D# Major" : "5B",
@@ -62,7 +62,7 @@ def pitchConvert(key_org):
     "B minor" : "10A",
     "F# minor" : "11A",
     "C# minor" : "12A",
-    }  
+    }
     key_dj = keys_camelot[key_org]
     return key_dj
 
@@ -71,7 +71,7 @@ def pitchConvert(key_org):
 def pitchCalculate(y,sr):
     chroma = librosa.feature.chroma_stft(y=y, sr=sr)
     song_chroma = chroma.sum(axis=1)
-    # pitches in 12 tone equal temperament 
+    # pitches in 12 tone equal temperament
     pitches = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
 
     # print note to value relations
@@ -87,7 +87,7 @@ def pitchCalculate(y,sr):
 
     # check if the musical 3rd is major or minor
     if song_chroma[min_third_id] < song_chroma[maj_third_id]:
-        third = 'Major' 
+        third = 'Major'
         print(str.format('\nThis song is likely in {} {}',pitch, third))
     elif song_chroma[min_third_id] > song_chroma[maj_third_id]:
         third = 'minor'

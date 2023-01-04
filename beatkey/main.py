@@ -20,11 +20,11 @@ def askDirectory():
 #SONG LIST INPUT
 def songsGet(directory, format_list):
     file_list = os.listdir(directory)
-    songs_dict = {}    
+    songs_dict = {}
     for file in file_list:
         #EXCLUDING ALREADY TAGGED FILES
         if file.endswith(format_list) and organizer.repeatCheck(file) is False:
-            songs_dict[file] = [directory + f"/{file}"]
+            songs_dict[file] = [directory]
         else:
             pass
     return songs_dict
@@ -46,18 +46,16 @@ def printer(songs_dict):
 def __main__():
     while True:
         directory = askDirectory()
-        os.chdir(directory)
         songs_dict = songsGet(directory, format_list)
         if len(songs_dict) == 0:
             print("no audio file eligible for an analysis!...")
             pass
         else:
             break
-    print(songs_dict)
     for song in songs_dict:
         song_dir = songs_dict[song][-1]
         print(f"analyzing song : {song}")
-        y, sr = analyzer.analyze(song_dir)
+        y, sr = analyzer.analyze(song, song_dir)
         bpm = analyzer.analyzeBeat(y,sr)
         key_dj, key_org = analyzer.analyzePitch(y,sr)
         songs_dict[song].insert(0,bpm)
@@ -75,4 +73,4 @@ while True:
 
 
 
-    
+
